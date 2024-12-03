@@ -1,9 +1,3 @@
-# requirements.txt
-streamlit
-selenium
-webdriver-manager
-pillow
-
 # app.py
 import streamlit as st
 from selenium import webdriver
@@ -22,7 +16,11 @@ def take_screenshots(urls, output_dir, mobile_view):
     else:
         chrome_options.add_argument("--window-size=1920,1080")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    try:
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    except Exception as e:
+        st.error(f"Failed to initialize the Chrome driver: {str(e)}")
+        return
 
     for index, url in enumerate(urls):
         if url.strip():
@@ -50,14 +48,14 @@ def take_screenshots(urls, output_dir, mobile_view):
 # Main function
 def main():
     st.title("Screenshottr - Automated Screenshot Tool")
-    st.write("Upload a list of URLs or enter them manually to take screenshots in mobile or desktop view.")
+    st.write("Enter a list of URLs to take screenshots in either mobile or desktop view.")
 
     # Text input for URLs
     urls_input = st.text_area("Enter URLs (one per line)")
 
-    # Checkbox to select mobile or desktop view
+    # Radio buttons to select mobile or desktop view
     view_option = st.radio("Select screenshot view:", ("Desktop", "Mobile"))
-    mobile_view = True if view_option == "Mobile" else False
+    mobile_view = view_option == "Mobile"
 
     # Output folder selection
     output_directory = st.text_input("Enter the output folder path for screenshots", value="screenshots")
@@ -68,12 +66,16 @@ def main():
 
         if urls:
             if not os.path.exists(output_directory):
-                os.makedirs(output_directory)
+                try:
+                    os.makedirs(output_directory)
+                except Exception as e:
+                    st.error(f"Failed to create output directory: {str(e)}")
+                    return
 
             try:
                 take_screenshots(urls, output_directory, mobile_view)
             except Exception as e:
-                st.error(f"An unexpected error occurred: {str(e)}")
+                st.error(f"An unexpected error occurred during the screenshot process: {str(e)}")
         else:
             st.warning("Please enter at least one URL.")
 
