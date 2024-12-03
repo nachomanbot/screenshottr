@@ -61,7 +61,6 @@ mobile_view = True if view_option == "Mobile" else False
 
 # Output folder selection using file uploader
 output_directory = st.text_input("Enter the output folder path for screenshots", value="screenshots")
-selected_output_directory = st.text_input("Select Output Directory", os.getcwd(), key="directory")
 
 # Button to start the screenshot process
 if st.button("Take Screenshots"):
@@ -71,4 +70,6 @@ if st.button("Take Screenshots"):
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
 
-        take_screenshots(url
+        take_screenshots(urls, output_directory, mobile_view)
+    else:
+        st.warning("Please enter at least one URL.")
