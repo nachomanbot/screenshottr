@@ -1,3 +1,9 @@
+# requirements.txt
+streamlit
+selenium
+webdriver-manager
+pillow
+
 # app.py
 import streamlit as st
 from selenium import webdriver
@@ -8,6 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 from PIL import Image
+from streamlit_elements import file_uploader
 
 # Function to take screenshots using Selenium
 def take_screenshots(urls, output_dir, mobile_view):
@@ -43,16 +50,18 @@ def take_screenshots(urls, output_dir, mobile_view):
     driver.quit()
 
 # Streamlit UI
-st.title("Automated Screenshot Tool")
+st.title("Screenshottr - Automated Screenshot Tool")
 
 # Text input for URLs
 urls_input = st.text_area("Enter URLs (one per line)")
 
-# Checkbox to select mobile or desktop view
-mobile_view = st.checkbox("Take mobile view screenshots", value=False)
+# Radio buttons to select mobile or desktop view
+view_option = st.radio("Select screenshot view:", ("Desktop", "Mobile"))
+mobile_view = True if view_option == "Mobile" else False
 
-# Output folder selection
+# Output folder selection using file uploader
 output_directory = st.text_input("Enter the output folder path for screenshots", value="screenshots")
+selected_output_directory = st.text_input("Select Output Directory", os.getcwd(), key="directory")
 
 # Button to start the screenshot process
 if st.button("Take Screenshots"):
@@ -62,6 +71,4 @@ if st.button("Take Screenshots"):
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
 
-        take_screenshots(urls, output_directory, mobile_view)
-    else:
-        st.warning("Please enter at least one URL.")
+        take_screenshots(url
