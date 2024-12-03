@@ -75,9 +75,9 @@ def main():
 
             try:
                 if take_desktop:
-                take_screenshots(urls, output_directory, mobile_view=False)
+                    take_screenshots(urls, output_directory, mobile_view=False)
             if take_mobile:
-                take_screenshots(urls, output_directory, mobile_view=True)
+                    take_screenshots(urls, output_directory, mobile_view=True)
             except Exception as e:
                 st.error(f"An unexpected error occurred during the screenshot process: {str(e)}")
         else:
