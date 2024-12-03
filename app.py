@@ -50,14 +50,13 @@ def take_screenshots(urls, output_dir, mobile_view):
     driver.quit()
 
 # Streamlit UI
-st.title("Screenshottr - Automated Screenshot Tool")
+st.title("Automated Screenshot Tool")
 
 # Text input for URLs
 urls_input = st.text_area("Enter URLs (one per line)")
 
-# Radio buttons to select mobile or desktop view
-view_option = st.radio("Select screenshot view:", ("Desktop", "Mobile"))
-mobile_view = True if view_option == "Mobile" else False
+# Checkbox to select mobile or desktop view
+mobile_view = st.checkbox("Take mobile view screenshots", value=False)
 
 # Output folder selection
 output_directory = st.text_input("Enter the output folder path for screenshots", value="screenshots")
