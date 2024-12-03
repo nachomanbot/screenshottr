@@ -1,28 +1,27 @@
 # app.py
 import streamlit as st
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
+from webdriver_manager.firefox import GeckoDriverManager
 import time
 import os
 from PIL import Image
 
 # Function to take screenshots using Selenium
 def take_screenshots(urls, output_dir, mobile_view):
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Run in headless mode
-    chrome_options.add_argument('--no-sandbox')  # Bypass OS security model
-    chrome_options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
+    firefox_options = Options()
+    firefox_options.add_argument('--headless')  # Run in headless mode
     if mobile_view:
-        chrome_options.add_experimental_option("mobileEmulation", {"deviceName": "iPhone X"})
+        firefox_options.set_preference("general.useragent.override", "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1")
     else:
-        chrome_options.add_argument("--window-size=1920,1080")
+        firefox_options.add_argument("--width=1920")
+        firefox_options.add_argument("--height=1080")
     
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=firefox_options)
     except Exception as e:
-        st.error(f"Failed to initialize the Chrome driver: {str(e)}. Please ensure Chrome and ChromeDriver are properly installed and compatible.")
+        st.error(f"Failed to initialize the Firefox driver: {str(e)}. Please ensure Firefox and GeckoDriver are properly installed and compatible.")
         return
 
     for index, url in enumerate(urls):
