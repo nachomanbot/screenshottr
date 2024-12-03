@@ -11,6 +11,9 @@ from PIL import Image
 # Function to take screenshots using Selenium
 def take_screenshots(urls, output_dir, mobile_view):
     chrome_options = Options()
+    chrome_options.add_argument('--headless')  # Run in headless mode
+    chrome_options.add_argument('--no-sandbox')  # Bypass OS security model
+    chrome_options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
     if mobile_view:
         chrome_options.add_experimental_option("mobileEmulation", {"deviceName": "iPhone X"})
     else:
@@ -19,7 +22,7 @@ def take_screenshots(urls, output_dir, mobile_view):
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     except Exception as e:
-        st.error(f"Failed to initialize the Chrome driver: {str(e)}")
+        st.error(f"Failed to initialize the Chrome driver: {str(e)}. Please ensure Chrome and ChromeDriver are properly installed and compatible.")
         return
 
     for index, url in enumerate(urls):
