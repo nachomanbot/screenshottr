@@ -14,7 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 from PIL import Image
-from streamlit_elements import file_uploader
+
 
 # Function to take screenshots using Selenium
 def take_screenshots(urls, output_dir, mobile_view):
