@@ -1,0 +1,5 @@
+# requirements.txt
+streamlit
+selenium
+webdriver-manager
+pillow
