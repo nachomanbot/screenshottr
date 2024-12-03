@@ -59,7 +59,7 @@ urls_input = st.text_area("Enter URLs (one per line)")
 view_option = st.radio("Select screenshot view:", ("Desktop", "Mobile"))
 mobile_view = True if view_option == "Mobile" else False
 
-# Output folder selection using file uploader
+# Output folder selection
 output_directory = st.text_input("Enter the output folder path for screenshots", value="screenshots")
 
 # Button to start the screenshot process
