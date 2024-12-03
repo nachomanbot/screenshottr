@@ -54,8 +54,9 @@ def main():
     urls_input = st.text_area("Enter URLs (one per line)")
 
     # Radio buttons to select mobile or desktop view
-    view_option = st.radio("Select screenshot view:", ("Desktop", "Mobile"))
-    mobile_view = view_option == "Mobile"
+    view_options = st.multiselect("Select screenshot views:", ["Desktop", "Mobile"])
+    take_desktop = "Desktop" in view_options
+    take_mobile = "Mobile" in view_options
 
     # Output folder selection
     output_directory = st.text_input("Enter the output folder path for screenshots", value="screenshots")
@@ -73,7 +74,10 @@ def main():
                     return
 
             try:
-                take_screenshots(urls, output_directory, mobile_view)
+                if take_desktop:
+                take_screenshots(urls, output_directory, mobile_view=False)
+            if take_mobile:
+                take_screenshots(urls, output_directory, mobile_view=True)
             except Exception as e:
                 st.error(f"An unexpected error occurred during the screenshot process: {str(e)}")
         else:
