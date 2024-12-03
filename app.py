@@ -58,12 +58,9 @@ def main():
     take_desktop = "Desktop" in view_options
     take_mobile = "Mobile" in view_options
 
-    # File uploader to select output folder
-    uploaded_file = st.file_uploader("Upload a file from the desired output folder (for selecting folder path)", type=["txt", "csv", "png", "jpg"])
-    if uploaded_file is not None:
-        output_directory = os.path.dirname(uploaded_file.name)
-    else:
-        output_directory = os.path.join(os.getcwd(), 'screenshots')
+    # Text input to select output folder
+    st.write("Enter the path to the folder where you want to save the screenshots. You can copy the path from your file explorer.")
+    output_directory = st.text_input("Output folder path:", value=os.path.join(os.getcwd(), 'screenshots'))
 
     # Button to start the screenshot process
     if st.button("Take Screenshots"):
